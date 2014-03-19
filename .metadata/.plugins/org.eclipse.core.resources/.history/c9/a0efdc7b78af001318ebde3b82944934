@@ -68,7 +68,7 @@ public class CalendarGUI extends javax.swing.JFrame {
 	/**
 	 * Displays the calendar for the current month based on the computers month.
 	 * 
-	 */
+	 *
 	public void fillTableForThisMonth() {
 		int currentYear = new GregorianCalendar().get(Calendar.YEAR);
 		this.currentMonth = new GregorianCalendar().get(Calendar.MONTH) + 1;
