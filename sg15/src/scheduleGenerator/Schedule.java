@@ -76,6 +76,8 @@ public class Schedule extends Thread implements Serializable {
 	 * Calculates another month of schedule based on workers availability.
 	 * 
 	 */
+	//SMELL: Long Method
+	//SWAP 1 Team 4 Change - Extract Method
 	private synchronized void calculateNextMonth() {
 
 		int initialSize = this.schedule.size();
@@ -97,71 +99,17 @@ public class Schedule extends Thread implements Serializable {
 		// Used to see if month changes
 		int currentMonth = this.cal.get(Calendar.MONTH);
 
-		int daysInMonth = 0;
+		int daysInMonth = this.days.size();
 		ArrayList<Integer> numOfJobs = new ArrayList<Integer>();
 
 		// While still in the current month generate a schedule for each day
 		while (currentMonth == this.cal.get(Calendar.MONTH)) {
 
 			for (Day day : this.days) {
-
 				if (this.cal.get(Calendar.DAY_OF_WEEK) == this.numForName(day
 						.getNameOfDay())) {
 
-					TreeMap<String, Worker> jobsWithWorker = new TreeMap<String, Worker>();
-					ArrayList<String> workersWorking = new ArrayList<String>();
-
-					ArrayList<String> jobsInOrder = day.getJobs();
-
-					// Used for html later
-
-					daysInMonth++;
-					numOfJobs.add(jobsInOrder.size());
-
-					//
-
-					for (String job : jobsInOrder) {
-
-						ArrayList<Worker> workersForJob = new ArrayList<Worker>();
-
-						for (Worker worker : this.workerIndices.get(this
-								.numForName(day.getNameOfDay()))) {
-							Day workerDay = worker.getDayWithName(day
-									.getNameOfDay());
-							if (workerDay.getJobs().contains(job)
-									&& !workersWorking.contains(worker
-											.getName())) {
-								workersForJob.add(worker);
-
-							}
-						}
-						if (workersForJob.size() > 0) {
-							Worker workerForJob = workersForJob
-									.get(new Random().nextInt(workersForJob
-											.size()));
-							for (Worker w : workersForJob) {
-								if (w.numWorkedForJob(job) < workerForJob
-										.numWorkedForJob(job)) {
-									workerForJob = w;
-								}
-							}
-							jobsWithWorker.put(job, workerForJob);
-							workersWorking.add(workerForJob.getName());
-							workerForJob.addWorkedJob(job);
-						} else {
-							jobsWithWorker.put(job, new Worker("Empty",
-									new ArrayList<Day>()));
-							JOptionPane
-									.showMessageDialog(
-											new JFrame(),
-											"No workers are able to work as a(n) "
-													+ job + " on "
-													+ day.getNameOfDay());
-							this.workerForEveryJob = false;
-							break;
-						}
-
-					}
+					
 					String date = this.cal.get(Calendar.YEAR)
 							+ "/"
 							+ String.format("%02d",
@@ -169,7 +117,7 @@ public class Schedule extends Thread implements Serializable {
 							+ "/"
 							+ String.format("%02d",
 									this.cal.get(Calendar.DAY_OF_MONTH));
-					this.schedule.put(date, jobsWithWorker);
+					this.schedule.put(date, assignJobsForDay(day,numOfJobs));
 					break; // Breaks so it doesn't check the other days
 				}
 			}
@@ -184,6 +132,76 @@ public class Schedule extends Thread implements Serializable {
 		}
 
 		Main.dumpConfigFile();
+	}
+	
+	//This method mutates numOfJobs
+	private TreeMap<String, Worker> assignJobsForDay(Day day, ArrayList<Integer> numOfJobs) {
+		TreeMap<String, Worker> jobsWithWorker = new TreeMap<String, Worker>();
+		ArrayList<String> workersWorking = new ArrayList<String>();
+
+		ArrayList<String> jobsInOrder = day.getJobs();
+
+		// Used for html later
+
+		numOfJobs.add(jobsInOrder.size());
+
+		//
+
+		for (String job : jobsInOrder) {
+
+			ArrayList<Worker> workersForJob = getWorkersForJob(workersWorking,job,day);
+			Worker w = getWorkerForJob(job, workersForJob, day);
+			jobsWithWorker.put(job, w);
+			if (w.getName().equals("Empty")) {
+				break;
+			}
+			else {
+				workersWorking.add(w.getName());
+			}
+		}
+		return jobsWithWorker;
+	}
+	
+	private ArrayList<Worker> getWorkersForJob(ArrayList<String> workersWorking, String job, Day day) {
+		ArrayList<Worker> workersForJob = new ArrayList<Worker>();
+
+		for (Worker worker : this.workerIndices.get(this
+				.numForName(day.getNameOfDay()))) {
+			Day workerDay = worker.getDayWithName(day
+					.getNameOfDay());
+			if (workerDay.getJobs().contains(job)
+					&& !workersWorking.contains(worker
+							.getName())) {
+				workersForJob.add(worker);
+
+			}
+		}
+		return workersForJob;
+	}
+	
+	private Worker getWorkerForJob(String job, ArrayList<Worker> workersForJob, Day day) {
+		if (workersForJob.size() > 0) {
+			Worker workerForJob = workersForJob
+					.get(new Random().nextInt(workersForJob
+							.size()));
+			for (Worker w : workersForJob) {
+				if (w.numWorkedForJob(job) < workerForJob
+						.numWorkedForJob(job)) {
+					workerForJob = w;
+				}
+			}
+			workerForJob.addWorkedJob(job);
+			return workerForJob;
+		} else {
+			JOptionPane
+					.showMessageDialog(
+							new JFrame(),
+							"No workers are able to work as a(n) "
+									+ job + " on "
+									+ day.getNameOfDay());
+			this.workerForEveryJob = false;
+			return new Worker("Empty",new ArrayList<Day>());
+		}
 	}
 
 	private int numForName(String nameOfDay) {
