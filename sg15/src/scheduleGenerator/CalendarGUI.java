@@ -18,7 +18,10 @@ import javax.swing.table.DefaultTableModel;
  * @author schneimd
  */
 public class CalendarGUI extends javax.swing.JFrame {
-
+	//SWAP 1 Team 4 Change 1
+	private static final String[] months = {"January ","February ","March ","April ","May ","June ","July ","August ","September ","October ","November ","December "};
+	private static final String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+	//END Change 1
 	private Schedule schedule;
 	private GregorianCalendar cal;
 	private TreeMap<String, TreeMap<String, Worker>> scheduleMap;
@@ -47,57 +50,17 @@ public class CalendarGUI extends javax.swing.JFrame {
 	}
 
 	private void setTitleMonth(int n, int year) {
-		switch (n) {
-		case (1):
-			this.monthTitle.setText("January " + year);
-			this.monthName = "January " + year;
-			break;
-		case (2):
-			this.monthTitle.setText("February " + year);
-			this.monthName = "February " + year;
-			break;
-		case (3):
-			this.monthTitle.setText("March " + year);
-			this.monthName = "March " + year;
-			break;
-		case (4):
-			this.monthTitle.setText("April " + year);
-			this.monthName = "April " + year;
-			break;
-		case (5):
-			this.monthTitle.setText("May " + year);
-			this.monthName = "May " + year;
-			break;
-		case (6):
-			this.monthTitle.setText("June " + year);
-			this.monthName = "June " + year;
-			break;
-		case (7):
-			this.monthTitle.setText("July " + year);
-			this.monthName = "July " + year;
-			break;
-		case (8):
-			this.monthTitle.setText("August " + year);
-			this.monthName = "August " + year;
-			break;
-		case (9):
-			this.monthTitle.setText("September " + year);
-			this.monthName = "September " + year;
-			break;
-		case (10):
-			this.monthTitle.setText("October " + year);
-			this.monthName = "October " + year;
-			break;
-		case (11):
-			this.monthTitle.setText("November " + year);
-			this.monthName = "November " + year;
-			break;
-		case (12):
-			this.monthTitle.setText("December " + year);
-			this.monthName = "December " + year;
-			break;
-
+		//Swap 1 Team 4 Change 2
+		try {
+			this.monthTitle.setText(months[n-1]+year);
+			this.monthName = months[n-1] + year;
 		}
+		catch (Exception e) {
+			//this should never happen, but as we didn't write the code, keep it from crashing on out of bounds error.
+			e.printStackTrace();
+		}
+		// Removed switch statement
+		// End Change 2
 	}
 
 	/**
@@ -348,23 +311,15 @@ public class CalendarGUI extends javax.swing.JFrame {
 	}
 
 	private String getNameforNum(int n) {
-		switch (n) {
-		case (1):
-			return "Sunday";
-		case (2):
-			return "Monday";
-		case (3):
-			return "Tuesday";
-		case (4):
-			return "Wednesday";
-		case (5):
-			return "Thursday";
-		case (6):
-			return "Friday";
-		case (7):
-			return "Saturday";
+		//SWAP 1 Team 4 Change 3
+		try {
+			return days[n-1];
 		}
-		return null;
+		catch(Exception e) {
+			return null;
+		}
+		//Removed switch statement
+		//End Change 3
 	}
 
 	private void initComponents() {
