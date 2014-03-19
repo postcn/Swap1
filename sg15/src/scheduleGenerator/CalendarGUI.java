@@ -29,8 +29,10 @@ public class CalendarGUI extends javax.swing.JFrame {
 	private TreeMap<String, TreeMap<String, Worker>> scheduleMap;
 	private int currentMonth;
 	private String monthName;
-	@SuppressWarnings("unused")
-	private int earliestYear, earliestMonth, earliestDay;
+	//SWAP 1 Team Change 2
+	//remove an unused variable.
+	private int earliestYear, earliestMonth;
+	//END Change 2
 	private int monthsAhead = 0;
 	private int yearsAhead = 0;
 
@@ -45,7 +47,8 @@ public class CalendarGUI extends javax.swing.JFrame {
 		String[] earliest = this.scheduleMap.firstKey().split("/");
 		this.earliestYear = Integer.parseInt(earliest[0]);
 		this.earliestMonth = Integer.parseInt(earliest[1]);
-		this.earliestDay = Integer.parseInt(earliest[2]);
+		//SWAP 1 Team 4 Change 3
+		//End Change 3
 		this.cal = new GregorianCalendar();
 		initComponents();
 		this.fillTableForThisMonth();
@@ -76,64 +79,8 @@ public class CalendarGUI extends javax.swing.JFrame {
 		this.monthsAhead = 0;
 		this.yearsAhead = 0;
 
-		String keyStart = currentYear + "/"
-				+ String.format("%02d", this.currentMonth);
-		String currentKey = "";
-
-		// Generates calendar for current month if none exists
-		while (currentKey.equals("")) {
-			Set<String> keys = this.scheduleMap.keySet();
-			for (String key : keys) {
-				if (key.startsWith(keyStart)) {
-					currentKey = key;
-					break;
-				}
-			}
-			if (currentKey.equals("")) {
-				Thread t = new Thread(this.schedule);
-				t.start();
-				//this.schedule.calculateNextMonth();
-			}
-		}
-
-		DefaultTableModel table = new DefaultTableModel(new Object[0][0],
-				new String[0][0]);
-
-		this.cal = new GregorianCalendar(currentYear, this.currentMonth - 1, 1);
-
-		while (this.currentMonth == this.cal.get(Calendar.MONTH) + 1) {
-			String tempKey = this.cal.get(Calendar.YEAR)
-					+ "/"
-					+ String.format("%02d", (this.cal.get(Calendar.MONTH) + 1))
-					+ "/"
-					+ String.format("%02d", this.cal.get(Calendar.DAY_OF_MONTH));
-			if (this.scheduleMap.containsKey(tempKey)) {
-
-				int numOfJobs = this.scheduleMap.get(tempKey).size();
-				String[] colData = new String[numOfJobs];
-				int i = 0;
-
-				for (String key : this.scheduleMap.get(tempKey).keySet()) {
-					colData[i] = key + ": "
-							+ this.scheduleMap.get(tempKey).get(key).getName();
-					i++;
-				}
-
-				String numDate = (this.cal.get(Calendar.MONTH) + 1)
-						+ "/"
-						+ String.format("%02d",
-								this.cal.get(Calendar.DAY_OF_MONTH)) + "/"
-						+ String.format("%02d", this.cal.get(Calendar.YEAR));
-				String colTitle = this.getNameforNum(this.cal
-						.get(Calendar.DAY_OF_WEEK)) + " (" + numDate + ")";
-				table.addColumn(colTitle, colData);
-
-			}
-			this.cal.add(Calendar.DATE, 1);
-		}
-
-		HTMLGenerator.addMonth(this.monthName, table);
-		this.scheduleTable.setModel(table);
+		//SWAP 1 TEAM 4 CHANGE: Removes Code into a Method
+		this.GenerateCalendar(currentYear, this.currentMonth);
 	}
 
 	/**
@@ -152,65 +99,8 @@ public class CalendarGUI extends javax.swing.JFrame {
 			this.yearsAhead++;
 		}
 		this.setTitleMonth(showMonth, currentYear);
-
-		String keyStart = currentYear + "/" + String.format("%02d", showMonth);
-		String currentKey = "";
-
-		// Generates calendar for current month if none exists
-		while (currentKey.equals("")) {
-			Set<String> keys = this.scheduleMap.keySet();
-			for (String key : keys) {
-				if (key.startsWith(keyStart)) {
-					currentKey = key;
-					break;
-				}
-			}
-			if (currentKey.equals("")) {
-				Thread t = new Thread(this.schedule);
-				t.start();
-				//this.schedule.calculateNextMonth();
-			}
-		}
-
-		DefaultTableModel table = new DefaultTableModel(new Object[0][0],
-				new String[0][0]);
-		this.cal = new GregorianCalendar(currentYear, showMonth - 1, 1);
-
-		while (showMonth == this.cal.get(Calendar.MONTH) + 1) {
-			String tempKey = this.cal.get(Calendar.YEAR)
-					+ "/"
-					+ String.format("%02d", (this.cal.get(Calendar.MONTH) + 1))
-					+ "/"
-					+ String.format("%02d", this.cal.get(Calendar.DAY_OF_MONTH));
-			if (this.scheduleMap.containsKey(tempKey)) {
-
-				int numOfJobs = this.scheduleMap.get(tempKey).size();
-				String[] colData = new String[numOfJobs];
-				int i = 0;
-
-				for (String key : this.scheduleMap.get(tempKey).keySet()) {
-					colData[i] = key + ": "
-							+ this.scheduleMap.get(tempKey).get(key).getName();
-					i++;
-				}
-
-				String numDate = String.format("%02d",
-						(this.cal.get(Calendar.MONTH) + 1))
-						+ "/"
-						+ String.format("%02d",
-								this.cal.get(Calendar.DAY_OF_MONTH))
-						+ "/"
-						+ this.cal.get(Calendar.YEAR);
-				String colTitle = this.getNameforNum(this.cal
-						.get(Calendar.DAY_OF_WEEK)) + " (" + numDate + ")";
-				table.addColumn(colTitle, colData);
-
-			}
-			this.cal.add(Calendar.DATE, 1);
-
-		}
-		HTMLGenerator.addMonth(this.monthName, table);
-		this.scheduleTable.setModel(table);
+		//SWAP 1 TEAM 4 CHANGE: Removes code into a method.
+		this.GenerateCalendar(currentYear, showMonth);
 	}
 
 	/**
@@ -245,73 +135,75 @@ public class CalendarGUI extends javax.swing.JFrame {
 		} else {
 			this.setTitleMonth(showMonth, currentYear);
 
-			String keyStart = currentYear + "/"
-					+ String.format("%02d", showMonth);
-			String currentKey = "";
-
-			// Generates calendar for current month if none exists
-			while (currentKey.equals("")) {
-				Set<String> keys = this.scheduleMap.keySet();
-				for (String key : keys) {
-					if (key.startsWith(keyStart)) {
-						currentKey = key;
-						break;
-					}
-				}
-				if (currentKey.equals("")) {
-					Thread t = new Thread(this.schedule);
-					t.start();
-					//this.schedule.calculateNextMonth();
-				}
-			}
-
-			DefaultTableModel table = new DefaultTableModel(new Object[0][0],
-					new String[0][0]);
-			this.cal = new GregorianCalendar(currentYear, showMonth - 1, 1);
-
-			while (showMonth == this.cal.get(Calendar.MONTH) + 1) {
-				String tempKey = this.cal.get(Calendar.YEAR)
-						+ "/"
-						+ String.format("%02d",
-								(this.cal.get(Calendar.MONTH) + 1))
-						+ "/"
-						+ String.format("%02d",
-								this.cal.get(Calendar.DAY_OF_MONTH));
-				if (this.scheduleMap.containsKey(tempKey)) {
-
-					int numOfJobs = this.scheduleMap.get(tempKey).size();
-					String[] colData = new String[numOfJobs];
-					int i = 0;
-
-					for (String key : this.scheduleMap.get(tempKey).keySet()) {
-						colData[i] = key
-								+ ": "
-								+ this.scheduleMap.get(tempKey).get(key)
-										.getName();
-						i++;
-					}
-
-					String numDate = String.format("%02d",
-							(this.cal.get(Calendar.MONTH) + 1))
-							+ "/"
-							+ String.format("%02d",
-									this.cal.get(Calendar.DAY_OF_MONTH))
-							+ "/"
-							+ this.cal.get(Calendar.YEAR);
-					String colTitle = this.getNameforNum(this.cal
-							.get(Calendar.DAY_OF_WEEK)) + " (" + numDate + ")";
-					table.addColumn(colTitle, colData);
-
-				}
-				this.cal.add(Calendar.DATE, 1);
-			}
-
-			this.scheduleTable.setModel(table);
-			HTMLGenerator.addMonth(this.monthName, table);
+			//SWAP1 TEAM 4: Removes Code into a Method
+			this.GenerateCalendar(currentYear, showMonth);
 		}
 
 	}
+	
+	//SWAP 1 TEAM 4 CHANGE 4
+	//Refactors a longer statement into it's own method.
+	public void GenerateCalendar(int currentYear, int showMonth)
+	{
+		String keyStart = currentYear + "/" + String.format("%02d", showMonth);
+		String currentKey = "";
+		// Generates calendar for current month if none exists
+				while (currentKey.equals("")) {
+					Set<String> keys = this.scheduleMap.keySet();
+					for (String key : keys) {
+						if (key.startsWith(keyStart)) {
+							currentKey = key;
+							break;
+						}
+					}
+					if (currentKey.equals("")) {
+						Thread t = new Thread(this.schedule);
+						t.start();
+						//this.schedule.calculateNextMonth();
+					}
+				}
 
+				DefaultTableModel table = new DefaultTableModel(new Object[0][0],
+						new String[0][0]);
+				this.cal = new GregorianCalendar(currentYear, showMonth - 1, 1);
+
+				while (showMonth == this.cal.get(Calendar.MONTH) + 1) {
+					String tempKey = this.cal.get(Calendar.YEAR)
+							+ "/"
+							+ String.format("%02d", (this.cal.get(Calendar.MONTH) + 1))
+							+ "/"
+							+ String.format("%02d", this.cal.get(Calendar.DAY_OF_MONTH));
+					if (this.scheduleMap.containsKey(tempKey)) {
+
+						int numOfJobs = this.scheduleMap.get(tempKey).size();
+						String[] colData = new String[numOfJobs];
+						int i = 0;
+
+						for (String key : this.scheduleMap.get(tempKey).keySet()) {
+							colData[i] = key + ": "
+									+ this.scheduleMap.get(tempKey).get(key).getName();
+							i++;
+						}
+
+						String numDate = String.format("%02d",
+								(this.cal.get(Calendar.MONTH) + 1))
+								+ "/"
+								+ String.format("%02d",
+										this.cal.get(Calendar.DAY_OF_MONTH))
+								+ "/"
+								+ this.cal.get(Calendar.YEAR);
+						String colTitle = this.getNameforNum(this.cal
+								.get(Calendar.DAY_OF_WEEK)) + " (" + numDate + ")";
+						table.addColumn(colTitle, colData);
+
+					}
+					this.cal.add(Calendar.DATE, 1);
+
+				}
+				HTMLGenerator.addMonth(this.monthName, table);
+				this.scheduleTable.setModel(table);
+	}
+	//END CHANGE 4
 	private String getNameforNum(int n) {
 		//SWAP 1 Team 4 Change 3
 		try {
