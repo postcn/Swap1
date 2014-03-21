@@ -18,10 +18,9 @@ import javax.swing.JOptionPane;
  */
 public class Config extends javax.swing.JFrame {
 
-    private boolean firstSelection = true;
-    private int numSelected = 0;
-    @SuppressWarnings("rawtypes")
-	private DefaultListModel[] models;
+    boolean firstSelection = true;
+    int numSelected = 0;
+    @SuppressWarnings("rawtypes") DefaultListModel[] models;
     
     
     /**
@@ -326,620 +325,64 @@ public class Config extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
+    //TEAM 4 SWAP 1 CHANGES. PULLED OUT TO ADDITIONAL CLASS/METHOD
     
     /**
 	 * @param evt  
 	 */
-    @SuppressWarnings("unchecked")
 	private void sundayCheckActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        if(this.sundayCheck.isSelected()) {
-            this.numSelected++;
-            if(this.firstSelection) {
-                stretch();
-            }
-            this.models[0] = new DefaultListModel<Object>();
-            this.sundayJobList.setModel(this.models[0]);
-            this.sundayScrollPane.setViewportView(this.sundayJobList);
-
-            this.sundayJobName.setColumns(20);
-
-            this.sundayLabel.setText("Job Name:");
-
-            this.sundayAddJob.setText("Add Job");
-            this.sundayAddJob.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    if(!Config.this.sundayJobName.getText().isEmpty()) {
-                        Config.this.models[0].addElement(Config.this.sundayJobName.getText());
-                        Config.this.sundayJobList.setModel(Config.this.models[0]);
-                        Config.this.sundayJobName.setText("");
-                    }
-                }
-            });
-
-            this.sundayDeleteJob.setText("Delete Job");
-            this.sundayDeleteJob.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    while(!Config.this.sundayJobList.isSelectionEmpty()) {
-                        int n = Config.this.sundayJobList.getSelectedIndex();
-                        Config.this.models[0].remove(n);
-                    }
-                    
-                }
-            });
-
-            javax.swing.GroupLayout sundayTabLayout = new javax.swing.GroupLayout(this.sundayTab);
-            this.sundayTab.setLayout(sundayTabLayout);
-            sundayTabLayout.setHorizontalGroup(
-                sundayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(sundayTabLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(this.sundayScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addGroup(sundayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(sundayTabLayout.createSequentialGroup()
-                            .addComponent(this.sundayLabel)
-                            .addGroup(sundayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(sundayTabLayout.createSequentialGroup()
-                                    .addGap(14, 14, 14)
-                                    .addComponent(this.sundayAddJob))
-                                .addGroup(sundayTabLayout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(this.sundayJobName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addComponent(this.sundayDeleteJob))
-                    .addContainerGap(431, Short.MAX_VALUE))
-            );
-            sundayTabLayout.setVerticalGroup(
-                sundayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(sundayTabLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(sundayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(sundayTabLayout.createSequentialGroup()
-                            .addGroup(sundayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(this.sundayJobName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(this.sundayLabel))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(this.sundayAddJob)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(this.sundayDeleteJob))
-                        .addComponent(this.sundayScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(25, Short.MAX_VALUE))
-            );
-            this.dayTabs.addTab("Sunday", this.sundayTab);
-        } else {
-            this.numSelected--;
-            stretch();
-            this.dayTabs.remove(this.sundayTab);
-        }
+    	this.dayPanel = new DayPanel("Sunday", this, 0, this.sundayJobList, this.sundayCheck, this.sundayScrollPane, this.sundayJobName, this.sundayAddJob, this.sundayDeleteJob, this.sundayLabel);
+        this.dayPanel.displayPanel();
         
     }                                           
 
     /**
 	 * @param evt  
 	 */
-    @SuppressWarnings("unchecked")
 	private void mondayCheckActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        if(this.mondayCheck.isSelected()) {
-            this.numSelected++;
-            if(this.firstSelection) {
-                stretch();
-            }
-            this.models[1] = new DefaultListModel<Object>();
-            this.mondayJobList.setModel(this.models[1]);
-            this.mondayScrollPane.setViewportView(this.mondayJobList);
-
-            this.mondayJobName.setColumns(20);
-
-            this.mondayLabel.setText("Job Name:");
-
-            this.mondayAddJob.setText("Add Job");
-            this.mondayAddJob.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    if(!Config.this.mondayJobName.getText().isEmpty()) {
-                        Config.this.models[1].addElement(Config.this.mondayJobName.getText());
-                        Config.this.mondayJobList.setModel(Config.this.models[1]);
-                        Config.this.mondayJobName.setText("");
-                    }
-                }
-            });
-
-            this.mondayDeleteJob.setText("Delete Job");
-            this.mondayDeleteJob.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    while(!Config.this.mondayJobList.isSelectionEmpty()) {
-                        int n = Config.this.mondayJobList.getSelectedIndex();
-                        Config.this.models[1].remove(n);
-                    }
-                    
-                }
-            });
-
-            javax.swing.GroupLayout mondayTabLayout = new javax.swing.GroupLayout(this.mondayTab);
-            this.mondayTab.setLayout(mondayTabLayout);
-            mondayTabLayout.setHorizontalGroup(
-                mondayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(mondayTabLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(this.mondayScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addGroup(mondayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(mondayTabLayout.createSequentialGroup()
-                            .addComponent(this.mondayLabel)
-                            .addGroup(mondayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(mondayTabLayout.createSequentialGroup()
-                                    .addGap(14, 14, 14)
-                                    .addComponent(this.mondayAddJob))
-                                .addGroup(mondayTabLayout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(this.mondayJobName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addComponent(this.mondayDeleteJob))
-                    .addContainerGap(431, Short.MAX_VALUE))
-            );
-            mondayTabLayout.setVerticalGroup(
-                mondayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(mondayTabLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(mondayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(mondayTabLayout.createSequentialGroup()
-                            .addGroup(mondayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(this.mondayJobName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(this.mondayLabel))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(this.mondayAddJob)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(this.mondayDeleteJob))
-                        .addComponent(this.mondayScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(25, Short.MAX_VALUE))
-            );
-            this.dayTabs.addTab("Monday", this.mondayTab);
-        } else {
-            this.numSelected--;
-            stretch();
-            this.dayTabs.remove(this.mondayTab);
-        }
-                
+        this.dayPanel = new DayPanel("Monday", this, 1, this.mondayJobList, this.mondayCheck, this.mondayScrollPane, this.mondayJobName, this.mondayAddJob, this.mondayDeleteJob, this.mondayLabel);
+        this.dayPanel.displayPanel();
     }                                           
 
     /**
 	 * @param evt  
 	 */
-    @SuppressWarnings("unchecked")
-	private void tuesdayCheckActionPerformed(java.awt.event.ActionEvent evt) {                                             
-        if(this.tuesdayCheck.isSelected()) {
-            this.numSelected++;
-            if(this.firstSelection) {
-                stretch();
-            }
-            this.models[2] = new DefaultListModel<Object>();
-            this.tuesdayJobList.setModel(this.models[2]);
-            this.tuesdayScrollPane.setViewportView(this.tuesdayJobList);
-
-            this.tuesdayJobName.setColumns(20);
-
-            this.tuesdayLabel.setText("Job Name:");
-
-            this.tuesdayAddJob.setText("Add Job");
-            this.tuesdayAddJob.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    if(!Config.this.tuesdayJobName.getText().isEmpty()) {
-                        Config.this.models[2].addElement(Config.this.tuesdayJobName.getText());
-                        Config.this.tuesdayJobList.setModel(Config.this.models[2]);
-                        Config.this.tuesdayJobName.setText("");
-                    }
-                }
-            });
-
-            this.tuesdayDeleteJob.setText("Delete Job");
-            this.tuesdayDeleteJob.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    while(!Config.this.tuesdayJobList.isSelectionEmpty()) {
-                        int n = Config.this.tuesdayJobList.getSelectedIndex();
-                        Config.this.models[2].remove(n);
-                    }
-                    
-                }
-            });
-
-            javax.swing.GroupLayout tuesdayTabLayout = new javax.swing.GroupLayout(this.tuesdayTab);
-            this.tuesdayTab.setLayout(tuesdayTabLayout);
-            tuesdayTabLayout.setHorizontalGroup(
-                tuesdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(tuesdayTabLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(this.tuesdayScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addGroup(tuesdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(tuesdayTabLayout.createSequentialGroup()
-                            .addComponent(this.tuesdayLabel)
-                            .addGroup(tuesdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(tuesdayTabLayout.createSequentialGroup()
-                                    .addGap(14, 14, 14)
-                                    .addComponent(this.tuesdayAddJob))
-                                .addGroup(tuesdayTabLayout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(this.tuesdayJobName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addComponent(this.tuesdayDeleteJob))
-                    .addContainerGap(431, Short.MAX_VALUE))
-            );
-            tuesdayTabLayout.setVerticalGroup(
-                tuesdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(tuesdayTabLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(tuesdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(tuesdayTabLayout.createSequentialGroup()
-                            .addGroup(tuesdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(this.tuesdayJobName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(this.tuesdayLabel))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(this.tuesdayAddJob)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(this.tuesdayDeleteJob))
-                        .addComponent(this.tuesdayScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(25, Short.MAX_VALUE))
-            );
-            this.dayTabs.addTab("Tuesday", this.tuesdayTab);
-        } else {
-            this.numSelected--;
-            stretch();
-            this.dayTabs.remove(this.tuesdayTab);
-        }
-    }                                            
+	private void tuesdayCheckActionPerformed(java.awt.event.ActionEvent evt) {
+    	this.dayPanel = new DayPanel("Tuesday", this, 2, this.tuesdayJobList, this.tuesdayCheck, this.tuesdayScrollPane, this.tuesdayJobName, this.tuesdayAddJob, this.tuesdayDeleteJob, this.tuesdayLabel);
+        this.dayPanel.displayPanel();
+        }                                            
 
     /**
 	 * @param evt  
 	 */
-    @SuppressWarnings("unchecked")
 	private void wednesdayCheckActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        if(this.wednesdayCheck.isSelected()) {
-            this.numSelected++;
-            if(this.firstSelection) {
-                stretch();
-            }
-            this.models[3] = new DefaultListModel<Object>();
-            this.wednesdayJobList.setModel(this.models[3]);
-            this.wednesdayScrollPane.setViewportView(this.wednesdayJobList);
-
-            this.wednesdayJobName.setColumns(20);
-
-            this.wednesdayLabel.setText("Job Name:");
-
-            this.wednesdayAddJob.setText("Add Job");
-            this.wednesdayAddJob.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    if(!Config.this.wednesdayJobName.getText().isEmpty()) {
-                        Config.this.models[3].addElement(Config.this.wednesdayJobName.getText());
-                        Config.this.wednesdayJobList.setModel(Config.this.models[3]);
-                        Config.this.wednesdayJobName.setText("");
-                    }
-                }
-            });
-
-            this.wednesdayDeleteJob.setText("Delete Job");
-            this.wednesdayDeleteJob.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    while(!Config.this.wednesdayJobList.isSelectionEmpty()) {
-                        int n = Config.this.wednesdayJobList.getSelectedIndex();
-                        Config.this.models[3].remove(n);
-                    }
-                    
-                }
-            });
-
-            javax.swing.GroupLayout wednesdayTabLayout = new javax.swing.GroupLayout(this.wednesdayTab);
-            this.wednesdayTab.setLayout(wednesdayTabLayout);
-            wednesdayTabLayout.setHorizontalGroup(
-                wednesdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(wednesdayTabLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(this.wednesdayScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addGroup(wednesdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(wednesdayTabLayout.createSequentialGroup()
-                            .addComponent(this.wednesdayLabel)
-                            .addGroup(wednesdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(wednesdayTabLayout.createSequentialGroup()
-                                    .addGap(14, 14, 14)
-                                    .addComponent(this.wednesdayAddJob))
-                                .addGroup(wednesdayTabLayout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(this.wednesdayJobName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addComponent(this.wednesdayDeleteJob))
-                    .addContainerGap(431, Short.MAX_VALUE))
-            );
-            wednesdayTabLayout.setVerticalGroup(
-                wednesdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(wednesdayTabLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(wednesdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(wednesdayTabLayout.createSequentialGroup()
-                            .addGroup(wednesdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(this.wednesdayJobName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(this.wednesdayLabel))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(this.wednesdayAddJob)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(this.wednesdayDeleteJob))
-                        .addComponent(this.wednesdayScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(25, Short.MAX_VALUE))
-            );
-            this.dayTabs.addTab("Wednesday", this.wednesdayTab);
-        } else {
-            this.numSelected--;
-            stretch();
-            this.dayTabs.remove(this.wednesdayTab);
-        }
-        
+    	this.dayPanel = new DayPanel("Wednesday", this, 3, this.wednesdayJobList, this.wednesdayCheck, this.wednesdayScrollPane, this.wednesdayJobName, this.wednesdayAddJob, this.wednesdayDeleteJob, this.wednesdayLabel);
+        this.dayPanel.displayPanel();
     }                                              
 
     /**
 	 * @param evt  
 	 */
-    @SuppressWarnings("unchecked")
-	private void thursdayCheckActionPerformed(java.awt.event.ActionEvent evt) {                                              
-        if(this.thursdayCheck.isSelected()) {
-            this.numSelected++;
-            if(this.firstSelection) {
-                stretch();
-            }
-            this.models[4] = new DefaultListModel<Object>();
-            this.thursdayJobList.setModel(this.models[4]);
-            this.thursdayScrollPane.setViewportView(this.thursdayJobList);
-
-            this.thursdayJobName.setColumns(20);
-
-            this.thursdayLabel.setText("Job Name:");
-
-            this.thursdayAddJob.setText("Add Job");
-            this.thursdayAddJob.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    if(!Config.this.thursdayJobName.getText().isEmpty()) {
-                        Config.this.models[4].addElement(Config.this.thursdayJobName.getText());
-                        Config.this.thursdayJobList.setModel(Config.this.models[4]);
-                        Config.this.thursdayJobName.setText("");
-                    }
-                }
-            });
-
-            this.thursdayDeleteJob.setText("Delete Job");
-            this.thursdayDeleteJob.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    while(!Config.this.thursdayJobList.isSelectionEmpty()) {
-                        int n = Config.this.thursdayJobList.getSelectedIndex();
-                        Config.this.models[4].remove(n);
-                    }
-                    
-                }
-            });
-
-            javax.swing.GroupLayout thursdayTabLayout = new javax.swing.GroupLayout(this.thursdayTab);
-            this.thursdayTab.setLayout(thursdayTabLayout);
-            thursdayTabLayout.setHorizontalGroup(
-                thursdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(thursdayTabLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(this.thursdayScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addGroup(thursdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(thursdayTabLayout.createSequentialGroup()
-                            .addComponent(this.thursdayLabel)
-                            .addGroup(thursdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(thursdayTabLayout.createSequentialGroup()
-                                    .addGap(14, 14, 14)
-                                    .addComponent(this.thursdayAddJob))
-                                .addGroup(thursdayTabLayout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(this.thursdayJobName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addComponent(this.thursdayDeleteJob))
-                    .addContainerGap(431, Short.MAX_VALUE))
-            );
-            thursdayTabLayout.setVerticalGroup(
-                thursdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(thursdayTabLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(thursdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(thursdayTabLayout.createSequentialGroup()
-                            .addGroup(thursdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(this.thursdayJobName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(this.thursdayLabel))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(this.thursdayAddJob)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(this.thursdayDeleteJob))
-                        .addComponent(this.thursdayScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(25, Short.MAX_VALUE))
-            );
-            this.dayTabs.addTab("Thursday", this.thursdayTab);
-        } else {
-            this.numSelected--;
-            stretch();
-            this.dayTabs.remove(this.thursdayTab);
-        }
-        
+    private void thursdayCheckActionPerformed(java.awt.event.ActionEvent evt) {
+    	this.dayPanel = new DayPanel("Thursday", this, 4, this.thursdayJobList, this.thursdayCheck, this.thursdayScrollPane, this.thursdayJobName, this.thursdayAddJob, this.thursdayDeleteJob, this.thursdayLabel);
+        this.dayPanel.displayPanel();
     }                                             
 
     /**
 	 * @param evt  
 	 */
-    @SuppressWarnings("unchecked")
-	private void fridayCheckActionPerformed(java.awt.event.ActionEvent evt) {                                            
-       if(this.fridayCheck.isSelected()) {
-            this.numSelected++;
-            if(this.firstSelection) {
-                stretch();
-            }
-            this.models[5] = new DefaultListModel<Object>();
-            this.fridayJobList.setModel(this.models[5]);
-            this.fridayScrollPane.setViewportView(this.fridayJobList);
-
-            this.fridayJobName.setColumns(20);
-
-            this.fridayLabel.setText("Job Name:");
-
-            this.fridayAddJob.setText("Add Job");
-            this.fridayAddJob.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    if(!Config.this.fridayJobName.getText().isEmpty()) {
-                        Config.this.models[5].addElement(Config.this.fridayJobName.getText());
-                        Config.this.fridayJobList.setModel(Config.this.models[5]);
-                        Config.this.fridayJobName.setText("");
-                    }
-                }
-            });
-
-            this.fridayDeleteJob.setText("Delete Job");
-            this.fridayDeleteJob.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    while(!Config.this.fridayJobList.isSelectionEmpty()) {
-                        int n = Config.this.fridayJobList.getSelectedIndex();
-                        Config.this.models[5].remove(n);
-                    }
-                    
-                }
-            });
-
-            javax.swing.GroupLayout fridayTabLayout = new javax.swing.GroupLayout(this.fridayTab);
-            this.fridayTab.setLayout(fridayTabLayout);
-            fridayTabLayout.setHorizontalGroup(
-                fridayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(fridayTabLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(this.fridayScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addGroup(fridayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(fridayTabLayout.createSequentialGroup()
-                            .addComponent(this.fridayLabel)
-                            .addGroup(fridayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(fridayTabLayout.createSequentialGroup()
-                                    .addGap(14, 14, 14)
-                                    .addComponent(this.fridayAddJob))
-                                .addGroup(fridayTabLayout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(this.fridayJobName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addComponent(this.fridayDeleteJob))
-                    .addContainerGap(431, Short.MAX_VALUE))
-            );
-            fridayTabLayout.setVerticalGroup(
-                fridayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(fridayTabLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(fridayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(fridayTabLayout.createSequentialGroup()
-                            .addGroup(fridayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(this.fridayJobName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(this.fridayLabel))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(this.fridayAddJob)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(this.fridayDeleteJob))
-                        .addComponent(this.fridayScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(25, Short.MAX_VALUE))
-            );
-            this.dayTabs.addTab("Friday", this.fridayTab);
-        } else {
-            this.numSelected--;
-            stretch();
-            this.dayTabs.remove(this.fridayTab);
-        }
-        
-    }                                           
+	private void fridayCheckActionPerformed(java.awt.event.ActionEvent evt) {
+    	this.dayPanel = new DayPanel("Friday", this, 5, this.fridayJobList, this.fridayCheck, this.fridayScrollPane, this.fridayJobName, this.fridayAddJob, this.fridayDeleteJob, this.fridayLabel);
+        this.dayPanel.displayPanel();
+          }                                           
 
     /**
 	 * @param evt  
 	 */
-    @SuppressWarnings("unchecked")
-	private void saturdayCheckActionPerformed(java.awt.event.ActionEvent evt) {                                              
-        if(this.saturdayCheck.isSelected()) {
-            this.numSelected++;
-            if(this.firstSelection) {
-                stretch();
-            }
-            this.models[6] = new DefaultListModel<Object>();
-            this.saturdayJobList.setModel(this.models[6]);
-            this.saturdayScrollPane.setViewportView(this.saturdayJobList);
-
-            this.saturdayJobName.setColumns(20);
-
-            this.saturdayLabel.setText("Job Name:");
-
-            this.saturdayAddJob.setText("Add Job");
-            this.saturdayAddJob.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    if(!Config.this.saturdayJobName.getText().isEmpty()) {
-                        Config.this.models[6].addElement(Config.this.saturdayJobName.getText());
-                        Config.this.saturdayJobList.setModel(Config.this.models[6]);
-                        Config.this.saturdayJobName.setText("");
-                    }
-                }
-            });
-
-            this.saturdayDeleteJob.setText("Delete Job");
-            this.saturdayDeleteJob.addActionListener(new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    while(!Config.this.saturdayJobList.isSelectionEmpty()) {
-                        int n = Config.this.saturdayJobList.getSelectedIndex();
-                        Config.this.models[6].remove(n);
-                    }
-                    
-                }
-            });
-
-            javax.swing.GroupLayout saturdayTabLayout = new javax.swing.GroupLayout(this.saturdayTab);
-            this.saturdayTab.setLayout(saturdayTabLayout);
-            saturdayTabLayout.setHorizontalGroup(
-                saturdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(saturdayTabLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(this.saturdayScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addGroup(saturdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(saturdayTabLayout.createSequentialGroup()
-                            .addComponent(this.saturdayLabel)
-                            .addGroup(saturdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(saturdayTabLayout.createSequentialGroup()
-                                    .addGap(14, 14, 14)
-                                    .addComponent(this.saturdayAddJob))
-                                .addGroup(saturdayTabLayout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(this.saturdayJobName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addComponent(this.saturdayDeleteJob))
-                    .addContainerGap(431, Short.MAX_VALUE))
-            );
-            saturdayTabLayout.setVerticalGroup(
-                saturdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(saturdayTabLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(saturdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(saturdayTabLayout.createSequentialGroup()
-                            .addGroup(saturdayTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(this.saturdayJobName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(this.saturdayLabel))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(this.saturdayAddJob)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(this.saturdayDeleteJob))
-                        .addComponent(this.saturdayScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(25, Short.MAX_VALUE))
-            );
-            this.dayTabs.addTab("Saturday", this.saturdayTab);
-        } else {
-            this.numSelected--;
-            stretch();
-            this.dayTabs.remove(this.saturdayTab);
-        }
-    }                                             
+	private void saturdayCheckActionPerformed(java.awt.event.ActionEvent evt) {
+    	this.dayPanel = new DayPanel("Saturday", this, 6, this.saturdayJobList, this.saturdayCheck, this.saturdayScrollPane, this.saturdayJobName, this.saturdayAddJob, this.saturdayDeleteJob, this.saturdayLabel);
+        this.dayPanel.displayPanel();
+          }                                             
 
     /**
 	 * @param evt  
@@ -1019,7 +462,7 @@ public class Config extends javax.swing.JFrame {
     }
     
     
-    private void stretch() {
+    void stretch() {
         if(this.numSelected > 0) {
             this.setSize(801, 290);
             this.firstSelection = false;
@@ -1125,7 +568,9 @@ public class Config extends javax.swing.JFrame {
     private javax.swing.JLabel saturdayLabel;
     private javax.swing.JPanel saturdayTab;
     
-    private javax.swing.JTabbedPane dayTabs;
+    private DayPanel dayPanel;
+    
+    javax.swing.JTabbedPane dayTabs;
     private javax.swing.JCheckBox fridayCheck;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
