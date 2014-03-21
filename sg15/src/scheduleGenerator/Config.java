@@ -17,6 +17,10 @@ import javax.swing.JOptionPane;
  * @author schneimd
  */
 public class Config extends javax.swing.JFrame {
+	
+	//SMELL - SWAP 1 TEAM 04 - Duplicate Code - Almost duplicate code is given for each day of the week
+	//SMELL - SWAP 1 TEAM 04 - Shotgun Surgery - If a change in structure or function was to be made to the actions in this class you would need
+	//to change it in multiple placesu
 
     boolean firstSelection = true;
     int numSelected = 0;
@@ -99,6 +103,7 @@ public class Config extends javax.swing.JFrame {
     }
     
     @SuppressWarnings("rawtypes")
+    //SMELL - SWAP 1 TEAM 04 - Data Clumps - These elements are always used together.
 	private void initDyn() {
         this.sundayScrollPane = new javax.swing.JScrollPane();
         this.sundayScrollPane.setPreferredSize(new Dimension(185,150));

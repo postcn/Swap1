@@ -75,6 +75,7 @@ public class WorkerSetup extends javax.swing.JFrame {
 		addWorker();
 	}
 
+	//SMELL - SWAP 1 TEAM 04 - Long Method - there is a lot of code in this method, making it difficult to read and understand.
 	private void addWorker() {
 		this.days = Main.getDays();
 		javax.swing.JTabbedPane tempWorkerDays = new javax.swing.JTabbedPane();

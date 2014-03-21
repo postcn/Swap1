@@ -18,9 +18,12 @@ import javax.swing.table.DefaultTableModel;
  * @author schneimd
  */
 public class CalendarGUI extends javax.swing.JFrame {
+	//SMELL - SWAP 1 TEAM 04 - Divergent Change - Any major change to the functionality of the system will impact this class.
+	//SMELL - SWAP 1 TEAM 04 - Large Class - This class contains a lot of the logic for the gui in addition to GUI components. Seems like this could be extracted
 	//SWAP 1 Team 4 Change 1
 	//The extremely duplicated code in the switch statements is pulled into a static constant list of names. This way it doesn't need to use the case statement anymore.
 	//and removes the switch statements.
+	//SMELL - SWAP 1 TEAM 04 - Switch Statements - switch statements were used to convert integers to strings. These have been fixed already.
 	private static final String[] months = {"January ","February ","March ","April ","May ","June ","July ","August ","September ","October ","November ","December "};
 	private static final String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 	//END Change 1
@@ -143,6 +146,7 @@ public class CalendarGUI extends javax.swing.JFrame {
 	
 	//SWAP 1 TEAM 4 CHANGE 4
 	//Refactors a longer statement into it's own method.
+	//SMELL - SWAP 1 TEAM 04 - Long Method - A lot of smaller statments in this code can be extracted into their own methods.
 	public void GenerateCalendar(int currentYear, int showMonth)
 	{
 		String keyStart = currentYear + "/" + String.format("%02d", showMonth);

@@ -76,7 +76,7 @@ public class Schedule extends Thread implements Serializable {
 	 * Calculates another month of schedule based on workers availability.
 	 * 
 	 */
-	//SMELL: Long Method
+	//SMELL - SWAP 1 TEAM 04: Long Method
 	//SWAP 1 Team 4 Change - Extract Method
 	private synchronized void calculateNextMonth() {
 
@@ -84,16 +84,7 @@ public class Schedule extends Thread implements Serializable {
 
 		// If the schedule has already been generated
 		if (this.schedule.size() > 0) {
-			String lastDateMade = this.schedule.lastKey();
-			String[] parts = lastDateMade.split("/");
-			int year = Integer.parseInt(parts[0]);
-			int month = Integer.parseInt(parts[1]) - 1;
-			int day = Integer.parseInt(parts[2]);
-			this.cal = new GregorianCalendar(year, month, day);
-			int tempNum = this.cal.get(Calendar.MONTH);
-			while (tempNum == this.cal.get(Calendar.MONTH)) {
-				this.cal.add(Calendar.DATE, 1);
-			}
+			scheduleExistsAlready();
 		}
 
 		// Used to see if month changes
@@ -124,6 +115,7 @@ public class Schedule extends Thread implements Serializable {
 			this.cal.add(Calendar.DATE, 1);
 		}
 		HTMLGenerator.makeTable(daysInMonth, numOfJobs);
+		//SMELL - SWAP 1 TEAM 04 - Comments - The piece of codes below is unclear without this comment. method extraction may be waranted.
 		// Calls itself if there aren't many days generated
 		// For instance if the date it was created is the last day of the
 		// month it would only makes one day of schedule.
@@ -132,6 +124,19 @@ public class Schedule extends Thread implements Serializable {
 		}
 
 		Main.dumpConfigFile();
+	}
+	
+	private void scheduleExistsAlready() {
+		String lastDateMade = this.schedule.lastKey();
+		String[] parts = lastDateMade.split("/");
+		int year = Integer.parseInt(parts[0]);
+		int month = Integer.parseInt(parts[1]) - 1;
+		int day = Integer.parseInt(parts[2]);
+		this.cal = new GregorianCalendar(year, month, day);
+		int tempNum = this.cal.get(Calendar.MONTH);
+		while (tempNum == this.cal.get(Calendar.MONTH)) {
+			this.cal.add(Calendar.DATE, 1);
+		}
 	}
 	
 	//This method mutates numOfJobs
