@@ -1,5 +1,6 @@
 package scheduleGenerator;
 
+import java.awt.Dimension;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -61,6 +62,13 @@ public class CalendarGUI extends javax.swing.JFrame {
 		//Swap 1 Team 4 Change 2
 		try {
 			this.monthTitle.setText(months[n-1]+year);
+			
+			//SWAP 1 TEAM 4 ADDITIONAL FEATURE. FIXED LENGTH ON THE TEXT
+			for(int x = this.monthTitle.getText().length(); x < 15; x++)
+			{
+				this.monthTitle.setText(this.monthTitle.getText() + " ");
+			}
+		
 			this.monthName = months[n-1] + year;
 		}
 		catch (Exception e) {
@@ -242,8 +250,9 @@ public class CalendarGUI extends javax.swing.JFrame {
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setTitle("Calendar");
 
-		this.monthTitle.setFont(new java.awt.Font("Tahoma", 1, 24));
+		this.monthTitle.setFont(new java.awt.Font("Monospaced", 1, 24));
 		this.monthTitle.setText("Month Name Here");
+		this.monthTitle.setPreferredSize(new Dimension(100, 25));
 
 		this.previousMonthButton.setText("<");
 		this.previousMonthButton
