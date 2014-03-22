@@ -78,6 +78,7 @@ public class Schedule extends Thread implements Serializable {
 	 */
 	//SMELL - SWAP 1 TEAM 04: Long Method
 	//SWAP 1 Team 4 Change - Extract Method
+	//SWAP 1 
 	private synchronized void calculateNextMonth() {
 
 		int initialSize = this.schedule.size();
@@ -184,11 +185,15 @@ public class Schedule extends Thread implements Serializable {
 		return workersForJob;
 	}
 	
+	/*BONUS FEATURE - Each worker gets only one assignment before being repeated.
+	 * We use the field in worker so that every time he gets assigned to a job he keeps track of how many
+	 * jobs he has worked of that type. We choose the worker that has worked this job the least.
+	 * 
+	 * This was fairly easy to do since we have already refactored the code to extract methods
+	 */
 	private Worker getWorkerForJob(String job, ArrayList<Worker> workersForJob, Day day) {
 		if (workersForJob.size() > 0) {
-			Worker workerForJob = workersForJob
-					.get(new Random().nextInt(workersForJob
-							.size()));
+			Worker workerForJob = getLeastUsedWorker(workersForJob, job);
 			for (Worker w : workersForJob) {
 				if (w.numWorkedForJob(job) < workerForJob
 						.numWorkedForJob(job)) {
@@ -207,6 +212,25 @@ public class Schedule extends Thread implements Serializable {
 			this.workerForEveryJob = false;
 			return new Worker("Empty",new ArrayList<Day>());
 		}
+	}
+	
+	/*
+	 * BONUS FEATURE - Function implementation
+	 */
+	private Worker getLeastUsedWorker(ArrayList<Worker> workers, String job) {
+		Worker leastUsed = workers.get(0);
+		ArrayList<Worker> dups = new ArrayList<Worker>();
+		for(Worker w: workers) {
+			if (w.numWorkedForJob(job) < leastUsed.numWorkedForJob(job)) {
+				leastUsed = w;
+				dups = new ArrayList<Worker>();
+				dups.add(w);
+			}
+			else if (w.numWorkedForJob(job) == leastUsed.numWorkedForJob(job)) {
+				dups.add(w);
+			}
+		}
+		return dups.get(new Random().nextInt(dups.size()));
 	}
 
 	private int numForName(String nameOfDay) {
