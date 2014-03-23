@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,7 +21,7 @@ public class Config extends javax.swing.JFrame {
 	
 	//SMELL - SWAP 1 TEAM 04 - Duplicate Code - Almost duplicate code is given for each day of the week
 	//SMELL - SWAP 1 TEAM 04 - Shotgun Surgery - If a change in structure or function was to be made to the actions in this class you would need
-	//to change it in multiple placesu
+	//to change it in multiple places
 
     boolean firstSelection = true;
     int numSelected = 0;
@@ -188,9 +189,23 @@ public class Config extends javax.swing.JFrame {
         setTitle("Configuration");
         setPreferredSize(new java.awt.Dimension(801, 87));
         setResizable(false);
-
-        this.sundayCheck.setText("Sunday");
-        this.sundayCheck.setName("sundayCheck"); // NOI18N
+        
+        //SWAP 1 - TEAM 04 - Remove Duplication 
+        //We create a list of the checkboxes so that we can remove a lot of the duplication,
+        //we also relate the text to the CalendarGUI since we have st the names for the days there.
+        this.checkBoxes = new ArrayList<JCheckBox>();
+        checkBoxes.add(this.sundayCheck);
+        checkBoxes.add(this.mondayCheck);
+        checkBoxes.add(this.tuesdayCheck);
+        checkBoxes.add(this.wednesdayCheck);
+        checkBoxes.add(this.thursdayCheck);
+        checkBoxes.add(this.fridayCheck);
+        checkBoxes.add(this.saturdayCheck);
+        
+        for (int i=0; i<checkBoxes.size(); i++) {
+        	checkBoxes.get(i).setText(CalendarGUI.days[i]);
+        }
+        
         this.sundayCheck.addActionListener(new java.awt.event.ActionListener() {
             @Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -198,17 +213,13 @@ public class Config extends javax.swing.JFrame {
             }
         });
 
-        this.wednesdayCheck.setText("Wednesday");
-        this.wednesdayCheck.setName("wednesdayCheck"); // NOI18N
         this.wednesdayCheck.addActionListener(new java.awt.event.ActionListener() {
             @Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 wednesdayCheckActionPerformed(evt);
             }
         });
-
-        this.mondayCheck.setText("Monday");
-        this.mondayCheck.setName("mondayCheck"); // NOI18N
+        
         this.mondayCheck.addActionListener(new java.awt.event.ActionListener() {
             @Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -216,8 +227,6 @@ public class Config extends javax.swing.JFrame {
             }
         });
 
-        this.tuesdayCheck.setText("Tuesday");
-        this.tuesdayCheck.setName("tuesdayCheck"); // NOI18N
         this.tuesdayCheck.addActionListener(new java.awt.event.ActionListener() {
             @Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -228,8 +237,6 @@ public class Config extends javax.swing.JFrame {
         this.jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         this.jLabel1.setText("Days:");
 
-        this.thursdayCheck.setText("Thursday");
-        this.thursdayCheck.setName("thursdayCheck"); // NOI18N
         this.thursdayCheck.addActionListener(new java.awt.event.ActionListener() {
             @Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -237,8 +244,6 @@ public class Config extends javax.swing.JFrame {
             }
         });
 
-        this.fridayCheck.setText("Friday");
-        this.fridayCheck.setName("fridayCheck"); // NOI18N
         this.fridayCheck.addActionListener(new java.awt.event.ActionListener() {
             @Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -246,8 +251,6 @@ public class Config extends javax.swing.JFrame {
             }
         });
 
-        this.saturdayCheck.setText("Saturday");
-        this.saturdayCheck.setName("saturdayCheck"); // NOI18N
         this.saturdayCheck.addActionListener(new java.awt.event.ActionListener() {
             @Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -331,6 +334,8 @@ public class Config extends javax.swing.JFrame {
     }// </editor-fold>
 
     //TEAM 4 SWAP 1 CHANGES. PULLED OUT TO ADDITIONAL CLASS/METHOD
+    //By pulling all the references into a new class, we can extend the functionality of all of the checkboxes.
+    //Instead of changing all of the individual functions, we can only modify the one class instead.
     
     /**
 	 * @param evt  
@@ -394,55 +399,16 @@ public class Config extends javax.swing.JFrame {
 	 */
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {
     	ArrayList<Day> days = new ArrayList<Day>();
-    	if(this.sundayCheck.isSelected())
-        {
-    		ArrayList<Object> sun = new ArrayList<Object>();
-    		List<Object> jobs = Arrays.asList(this.models[0].toArray());
-    		sun.addAll(jobs);
-        	days.add(new Day("Sunday",sun));
-        }
-    	if(this.mondayCheck.isSelected())
-        {
-    		ArrayList<Object> mon = new ArrayList<Object>();
-    		List<Object> jobs = Arrays.asList(this.models[1].toArray());
-    		mon.addAll(jobs);
-        	days.add(new Day("Monday",mon));
-        }
-    	if(this.tuesdayCheck.isSelected())
-        {
-    		ArrayList<Object> tue = new ArrayList<Object>();
-    		List<Object> jobs = Arrays.asList(this.models[2].toArray());
-    		tue.addAll(jobs);
-        	days.add(new Day("Tuesday",tue));
-        }
-    	if(this.wednesdayCheck.isSelected())
-        {
-    		ArrayList<Object> wed = new ArrayList<Object>();
-    		List<Object> jobs = Arrays.asList(this.models[3].toArray());
-    		wed.addAll(jobs);
-        	days.add(new Day("Wednesday",wed));
-        }
-    	if(this.thursdayCheck.isSelected())
-        {
-    		ArrayList<Object> thu = new ArrayList<Object>();
-    		List<Object> jobs = Arrays.asList(this.models[4].toArray());
-    		thu.addAll(jobs);
-        	days.add(new Day("Thursday",thu));
-        }
-    	if(this.fridayCheck.isSelected())
-        {
-    		ArrayList<Object> fri = new ArrayList<Object>();
-    		List<Object> jobs = Arrays.asList(this.models[5].toArray());
-    		fri.addAll(jobs);
-        	days.add(new Day("Friday",fri));
-        }
-    	if(this.saturdayCheck.isSelected())
-        {
-    		ArrayList<Object> sat = new ArrayList<Object>();
-    		List<Object> jobs = Arrays.asList(this.models[6].toArray());
-    		sat.addAll(jobs);
-        	days.add(new Day("Saturday",sat));
-        }
+    	//SWAP 1 - TEAM 04 - Removed duplication here by the list we created earlier. Now we can iterate through it and achieve the
+    	//same functionality
+    	for (JCheckBox box : this.checkBoxes) {
+    		if (box.isSelected()) {
+    			ArrayList<Object> l = new ArrayList<Object>();
+        		List<Object> jobs = Arrays.asList(this.models[0].toArray());
+        		l.addAll(jobs);
+            	days.add(new Day(box.getText(),l));
+    		}
+    	}
     	if(days.size() > 0) {
     		boolean hasJobs = true;
     		int i = 0;
@@ -509,6 +475,8 @@ public class Config extends javax.swing.JFrame {
             }
         });
     }
+    
+    private ArrayList<JCheckBox> checkBoxes;
     
     private javax.swing.JScrollPane sundayScrollPane;
     private javax.swing.JButton sundayAddJob;

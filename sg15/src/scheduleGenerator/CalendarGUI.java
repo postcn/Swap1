@@ -24,9 +24,10 @@ public class CalendarGUI extends javax.swing.JFrame {
 	//SWAP 1 Team 4 Change 1
 	//The extremely duplicated code in the switch statements is pulled into a static constant list of names. This way it doesn't need to use the case statement anymore.
 	//and removes the switch statements.
+	//These duplicated code changes allow us to create an internationalizer that changes the names for the days of the week and months of the year.
 	//SMELL - SWAP 1 TEAM 04 - Switch Statements - switch statements were used to convert integers to strings. These have been fixed already.
-	private static final String[] months = {"January ","February ","March ","April ","May ","June ","July ","August ","September ","October ","November ","December "};
-	private static final String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+	public static String[] months = {"January ","February ","March ","April ","May ","June ","July ","August ","September ","October ","November ","December "};
+	public static String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 	//END Change 1
 	private Schedule schedule;
 	private GregorianCalendar cal;
@@ -218,6 +219,8 @@ public class CalendarGUI extends javax.swing.JFrame {
 	//END CHANGE 4
 	private String getNameforNum(int n) {
 		//SWAP 1 Team 4 Change 3
+		//This allows for custom names for the days of the week. Since it is loaded as a constant we could internationalize
+		//by creating an internationalizer that would load different names for the day of the week.
 		try {
 			return days[n-1];
 		}
