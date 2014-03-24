@@ -32,7 +32,7 @@ public class DayPanel extends JPanel{
 		this.day = daySet;
 		this.dayInt = intSet;
 		this.dayJobList = listSet;
-		this.dayCheck = dayCheckSet;
+		this.dayCheck = new JCheckBox();
 		this.dayScrollPane = scrollSet;
 		this.dayJobName = textSet;
 		this.dayAddJob = addSet;
@@ -44,6 +44,7 @@ public class DayPanel extends JPanel{
 	
 	public void displayPanel()
 	{
+		this.dayCheck.setSelected(!this.dayCheck.isSelected());
 		if(this.dayCheck.isSelected()) {
             config.numSelected++;
             if(config.firstSelection) {

@@ -162,13 +162,13 @@ public class Config extends javax.swing.JFrame {
         this.saturdayAddJob = new javax.swing.JButton();
         this.saturdayDeleteJob = new javax.swing.JButton();
         
-        this.mondayTab = new javax.swing.JPanel();
-        this.tuesdayTab = new javax.swing.JPanel();
-        this.wednesdayTab = new javax.swing.JPanel();
-        this.thursdayTab = new javax.swing.JPanel();
-        this.fridayTab = new javax.swing.JPanel();
-        this.saturdayTab = new javax.swing.JPanel();
-        this.sundayTab = new javax.swing.JPanel();
+        this.mondayTab = new DayPanel("Monday", this, 1, this.mondayJobList, this.mondayCheck, this.mondayScrollPane, this.mondayJobName, this.mondayAddJob, this.mondayDeleteJob, this.mondayLabel);
+        this.tuesdayTab = new DayPanel("Tuesday", this, 2, this.tuesdayJobList, this.tuesdayCheck, this.tuesdayScrollPane, this.tuesdayJobName, this.tuesdayAddJob, this.tuesdayDeleteJob, this.tuesdayLabel);
+        this.wednesdayTab = new DayPanel("Wednesday", this, 3, this.wednesdayJobList, this.wednesdayCheck, this.wednesdayScrollPane, this.wednesdayJobName, this.wednesdayAddJob, this.wednesdayDeleteJob, this.wednesdayLabel);
+        this.thursdayTab = new DayPanel("Thursday", this, 4, this.thursdayJobList, this.thursdayCheck, this.thursdayScrollPane, this.thursdayJobName, this.thursdayAddJob, this.thursdayDeleteJob, this.thursdayLabel);
+        this.fridayTab = new DayPanel("Friday", this, 5, this.fridayJobList, this.fridayCheck, this.fridayScrollPane, this.fridayJobName, this.fridayAddJob, this.fridayDeleteJob, this.fridayLabel);
+        this.saturdayTab = new DayPanel("Saturday", this, 6, this.saturdayJobList, this.saturdayCheck, this.saturdayScrollPane, this.saturdayJobName, this.saturdayAddJob, this.saturdayDeleteJob, this.saturdayLabel);
+        this.sundayTab = new DayPanel("Sunday", this, 0, this.sundayJobList, this.sundayCheck, this.sundayScrollPane, this.sundayJobName, this.sundayAddJob, this.sundayDeleteJob, this.sundayLabel);
     }
 
     private void initComponents() {
@@ -341,8 +341,7 @@ public class Config extends javax.swing.JFrame {
 	 * @param evt  
 	 */
 	private void sundayCheckActionPerformed(java.awt.event.ActionEvent evt) {                                            
-    	this.dayPanel = new DayPanel("Sunday", this, 0, this.sundayJobList, this.sundayCheck, this.sundayScrollPane, this.sundayJobName, this.sundayAddJob, this.sundayDeleteJob, this.sundayLabel);
-        this.dayPanel.displayPanel();
+        this.sundayTab.displayPanel();
         
     }                                           
 
@@ -350,48 +349,42 @@ public class Config extends javax.swing.JFrame {
 	 * @param evt  
 	 */
 	private void mondayCheckActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        this.dayPanel = new DayPanel("Monday", this, 1, this.mondayJobList, this.mondayCheck, this.mondayScrollPane, this.mondayJobName, this.mondayAddJob, this.mondayDeleteJob, this.mondayLabel);
-        this.dayPanel.displayPanel();
+        this.mondayTab.displayPanel();
     }                                           
 
     /**
 	 * @param evt  
 	 */
 	private void tuesdayCheckActionPerformed(java.awt.event.ActionEvent evt) {
-    	this.dayPanel = new DayPanel("Tuesday", this, 2, this.tuesdayJobList, this.tuesdayCheck, this.tuesdayScrollPane, this.tuesdayJobName, this.tuesdayAddJob, this.tuesdayDeleteJob, this.tuesdayLabel);
-        this.dayPanel.displayPanel();
+        this.tuesdayTab.displayPanel();
         }                                            
 
     /**
 	 * @param evt  
 	 */
 	private void wednesdayCheckActionPerformed(java.awt.event.ActionEvent evt) {                                               
-    	this.dayPanel = new DayPanel("Wednesday", this, 3, this.wednesdayJobList, this.wednesdayCheck, this.wednesdayScrollPane, this.wednesdayJobName, this.wednesdayAddJob, this.wednesdayDeleteJob, this.wednesdayLabel);
-        this.dayPanel.displayPanel();
+        this.wednesdayTab.displayPanel();
     }                                              
 
     /**
 	 * @param evt  
 	 */
     private void thursdayCheckActionPerformed(java.awt.event.ActionEvent evt) {
-    	this.dayPanel = new DayPanel("Thursday", this, 4, this.thursdayJobList, this.thursdayCheck, this.thursdayScrollPane, this.thursdayJobName, this.thursdayAddJob, this.thursdayDeleteJob, this.thursdayLabel);
-        this.dayPanel.displayPanel();
+        this.thursdayTab.displayPanel();
     }                                             
 
     /**
 	 * @param evt  
 	 */
 	private void fridayCheckActionPerformed(java.awt.event.ActionEvent evt) {
-    	this.dayPanel = new DayPanel("Friday", this, 5, this.fridayJobList, this.fridayCheck, this.fridayScrollPane, this.fridayJobName, this.fridayAddJob, this.fridayDeleteJob, this.fridayLabel);
-        this.dayPanel.displayPanel();
+        this.fridayTab.displayPanel();
           }                                           
 
     /**
 	 * @param evt  
 	 */
 	private void saturdayCheckActionPerformed(java.awt.event.ActionEvent evt) {
-    	this.dayPanel = new DayPanel("Saturday", this, 6, this.saturdayJobList, this.saturdayCheck, this.saturdayScrollPane, this.saturdayJobName, this.saturdayAddJob, this.saturdayDeleteJob, this.saturdayLabel);
-        this.dayPanel.displayPanel();
+        this.saturdayTab.displayPanel();
           }                                             
 
     /**
@@ -485,7 +478,7 @@ public class Config extends javax.swing.JFrame {
 	private javax.swing.JList sundayJobList;
     private javax.swing.JTextField sundayJobName;
     private javax.swing.JLabel sundayLabel;
-    private javax.swing.JPanel sundayTab;
+    private DayPanel sundayTab;
     
     private javax.swing.JScrollPane mondayScrollPane;
     private javax.swing.JButton mondayAddJob;
@@ -494,7 +487,7 @@ public class Config extends javax.swing.JFrame {
 	private javax.swing.JList mondayJobList;
     private javax.swing.JTextField mondayJobName;
     private javax.swing.JLabel mondayLabel;
-    private javax.swing.JPanel mondayTab;
+    private DayPanel mondayTab;
     
     private javax.swing.JScrollPane tuesdayScrollPane;
     private javax.swing.JButton tuesdayAddJob;
@@ -503,7 +496,7 @@ public class Config extends javax.swing.JFrame {
 	private javax.swing.JList tuesdayJobList;
     private javax.swing.JTextField tuesdayJobName;
     private javax.swing.JLabel tuesdayLabel;
-    private javax.swing.JPanel tuesdayTab;
+    private DayPanel tuesdayTab;
     
     private javax.swing.JScrollPane wednesdayScrollPane;
     private javax.swing.JButton wednesdayAddJob;
@@ -512,7 +505,7 @@ public class Config extends javax.swing.JFrame {
 	private javax.swing.JList wednesdayJobList;
     private javax.swing.JTextField wednesdayJobName;
     private javax.swing.JLabel wednesdayLabel;
-    private javax.swing.JPanel wednesdayTab;
+    private DayPanel wednesdayTab;
     
     private javax.swing.JScrollPane thursdayScrollPane;
     private javax.swing.JButton thursdayAddJob;
@@ -521,7 +514,7 @@ public class Config extends javax.swing.JFrame {
 	private javax.swing.JList thursdayJobList;
     private javax.swing.JTextField thursdayJobName;
     private javax.swing.JLabel thursdayLabel;
-    private javax.swing.JPanel thursdayTab;
+    private DayPanel thursdayTab;
     
     private javax.swing.JScrollPane fridayScrollPane;
     private javax.swing.JButton fridayAddJob;
@@ -530,7 +523,7 @@ public class Config extends javax.swing.JFrame {
 	private javax.swing.JList fridayJobList;
     private javax.swing.JTextField fridayJobName;
     private javax.swing.JLabel fridayLabel;
-    private javax.swing.JPanel fridayTab;
+    private DayPanel fridayTab;
     
     private javax.swing.JScrollPane saturdayScrollPane;
     private javax.swing.JButton saturdayAddJob;
@@ -539,9 +532,8 @@ public class Config extends javax.swing.JFrame {
 	private javax.swing.JList saturdayJobList;
     private javax.swing.JTextField saturdayJobName;
     private javax.swing.JLabel saturdayLabel;
-    private javax.swing.JPanel saturdayTab;
+    private DayPanel saturdayTab;
     
-    private DayPanel dayPanel;
     
     javax.swing.JTabbedPane dayTabs;
     private javax.swing.JCheckBox fridayCheck;
