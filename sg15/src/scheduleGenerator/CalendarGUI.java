@@ -20,12 +20,16 @@ import javax.swing.table.DefaultTableModel;
  */
 public class CalendarGUI extends javax.swing.JFrame {
 	//SMELL - SWAP 1 TEAM 04 - Divergent Change - Any major change to the functionality of the system will impact this class.
+	//Features that could be added if this fix are not really limited. We could add a system which displays more than one month at a time
+	//or we could display different panels for each job.
 	//SMELL - SWAP 1 TEAM 04 - Large Class - This class contains a lot of the logic for the gui in addition to GUI components. Seems like this could be extracted
+	//This is the same type of feature change as a above. The code would become overall a lot cleaner if this was fixed.
 	//SWAP 1 Team 4 Change 1
 	//The extremely duplicated code in the switch statements is pulled into a static constant list of names. This way it doesn't need to use the case statement anymore.
 	//and removes the switch statements.
 	//These duplicated code changes allow us to create an internationalizer that changes the names for the days of the week and months of the year.
-	//SMELL - SWAP 1 TEAM 04 - Switch Statements - switch statements were used to convert integers to strings. These have been fixed already.
+	//SMELL - SWAP 1 TEAM 04 - Switch Statements - switch statements were used to convert integers to strings. These have been fixed already. They let us change
+	//the names of things without changing multiple sections of code.
 	public static String[] months = {"January ","February ","March ","April ","May ","June ","July ","August ","September ","October ","November ","December "};
 	public static String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 	//END Change 1
@@ -156,6 +160,8 @@ public class CalendarGUI extends javax.swing.JFrame {
 	//SWAP 1 TEAM 4 CHANGE 4
 	//Refactors a longer statement into it's own method.
 	//SMELL - SWAP 1 TEAM 04 - Long Method - A lot of smaller statments in this code can be extracted into their own methods.
+	//Features this would allow are more clearly separated responsibilties, we could change the formatting of the strings without
+	//digging through the code to find every one.
 	public void GenerateCalendar(int currentYear, int showMonth)
 	{
 		String keyStart = currentYear + "/" + String.format("%02d", showMonth);

@@ -141,6 +141,7 @@ public class HTMLGenerator {
 											// comma and add a bracket.
 
 	//SMELL - SWAP 1 TEAM 04 - Excessive use of literals - these strings should be constants, and moved to a seperate file if possible
+	//If they were put into a file we could make a internationalizer that would load html for multiple languages.
 	/**
 	 * Used to put header.
 	 */

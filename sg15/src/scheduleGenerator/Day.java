@@ -22,7 +22,9 @@ public class Day implements Serializable{
 	 * @param jobs
 	 */
 	//SMELL - SWAP 1 TEAM 04 - Speculative Generality - Jobs are strings everywhere, this means that having them be objects here
-	//is speculative generality. (They are treated as objects elsewhere when they are strings also.
+	//is speculative generality. (They are treated as objects elsewhere when they are strings also).
+	//Fixing this would be very easy, and makes the code more understandable instead of casting everywhere. Jobs are always represented
+	//as strings currently so it makes no sense to pass them as objects.
 	public Day(String name, ArrayList<Object> jobs)
 	{
 		this.dayOfWeek = name;

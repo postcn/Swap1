@@ -76,82 +76,34 @@ public class Schedule extends Thread implements Serializable {
 	 * Calculates another month of schedule based on workers availability.
 	 * 
 	 */
+	//SMELL - SWAP 1 TEAM 04: Long Method
+	//Features that could be added by extracting methods would be adding in the ability to make each worker work the job the same number
+	//of times, each person does it once before someone gets repeated.
+	//SWAP 1 Team 4 Change - Extract Method
+	//SWAP 1 
 	private synchronized void calculateNextMonth() {
 
 		int initialSize = this.schedule.size();
 
 		// If the schedule has already been generated
 		if (this.schedule.size() > 0) {
-			String lastDateMade = this.schedule.lastKey();
-			String[] parts = lastDateMade.split("/");
-			int year = Integer.parseInt(parts[0]);
-			int month = Integer.parseInt(parts[1]) - 1;
-			int day = Integer.parseInt(parts[2]);
-			this.cal = new GregorianCalendar(year, month, day);
-			int tempNum = this.cal.get(Calendar.MONTH);
-			while (tempNum == this.cal.get(Calendar.MONTH)) {
-				this.cal.add(Calendar.DATE, 1);
-			}
+			scheduleExistsAlready();
 		}
 
 		// Used to see if month changes
 		int currentMonth = this.cal.get(Calendar.MONTH);
 
-		int daysInMonth = 0;
+		int daysInMonth = this.days.size();
 		ArrayList<Integer> numOfJobs = new ArrayList<Integer>();
 
 		// While still in the current month generate a schedule for each day
 		while (currentMonth == this.cal.get(Calendar.MONTH)) {
 
 			for (Day day : this.days) {
-
 				if (this.cal.get(Calendar.DAY_OF_WEEK) == this.numForName(day
 						.getNameOfDay())) {
 
-					TreeMap<String, Worker> jobsWithWorker = new TreeMap<String, Worker>();
-					ArrayList<String> workersWorking = new ArrayList<String>();
-
-					ArrayList<String> jobsInOrder = day.getJobs();
-
-					// Used for html later
-
-					daysInMonth++;
-					numOfJobs.add(jobsInOrder.size());
-
-					//
-
-					for (String job : jobsInOrder) {
-
-						ArrayList<Worker> workersForJob = getWorkersForJob(workersWorking,job,day);
-						Worker w = getWorkerForJob(job, workersForJob);
-
-						if (workersForJob.size() > 0) {
-							Worker workerForJob = workersForJob
-									.get(new Random().nextInt(workersForJob
-											.size()));
-							for (Worker w : workersForJob) {
-								if (w.numWorkedForJob(job) < workerForJob
-										.numWorkedForJob(job)) {
-									workerForJob = w;
-								}
-							}
-							jobsWithWorker.put(job, workerForJob);
-							workersWorking.add(workerForJob.getName());
-							workerForJob.addWorkedJob(job);
-						} else {
-							jobsWithWorker.put(job, new Worker("Empty",
-									new ArrayList<Day>()));
-							JOptionPane
-									.showMessageDialog(
-											new JFrame(),
-											"No workers are able to work as a(n) "
-													+ job + " on "
-													+ day.getNameOfDay());
-							this.workerForEveryJob = false;
-							break;
-						}
-
-					}
+					
 					String date = this.cal.get(Calendar.YEAR)
 							+ "/"
 							+ String.format("%02d",
@@ -159,13 +111,14 @@ public class Schedule extends Thread implements Serializable {
 							+ "/"
 							+ String.format("%02d",
 									this.cal.get(Calendar.DAY_OF_MONTH));
-					this.schedule.put(date, jobsWithWorker);
+					this.schedule.put(date, assignJobsForDay(day,numOfJobs));
 					break; // Breaks so it doesn't check the other days
 				}
 			}
 			this.cal.add(Calendar.DATE, 1);
 		}
 		HTMLGenerator.makeTable(daysInMonth, numOfJobs);
+		//SMELL - SWAP 1 TEAM 04 - Comments - The piece of codes below is unclear without this comment. method extraction may be waranted.
 		// Calls itself if there aren't many days generated
 		// For instance if the date it was created is the last day of the
 		// month it would only makes one day of schedule.
@@ -174,6 +127,47 @@ public class Schedule extends Thread implements Serializable {
 		}
 
 		Main.dumpConfigFile();
+	}
+	
+	private void scheduleExistsAlready() {
+		String lastDateMade = this.schedule.lastKey();
+		String[] parts = lastDateMade.split("/");
+		int year = Integer.parseInt(parts[0]);
+		int month = Integer.parseInt(parts[1]) - 1;
+		int day = Integer.parseInt(parts[2]);
+		this.cal = new GregorianCalendar(year, month, day);
+		int tempNum = this.cal.get(Calendar.MONTH);
+		while (tempNum == this.cal.get(Calendar.MONTH)) {
+			this.cal.add(Calendar.DATE, 1);
+		}
+	}
+	
+	//This method mutates numOfJobs
+	private TreeMap<String, Worker> assignJobsForDay(Day day, ArrayList<Integer> numOfJobs) {
+		TreeMap<String, Worker> jobsWithWorker = new TreeMap<String, Worker>();
+		ArrayList<String> workersWorking = new ArrayList<String>();
+
+		ArrayList<String> jobsInOrder = day.getJobs();
+
+		// Used for html later
+
+		numOfJobs.add(jobsInOrder.size());
+
+		//
+
+		for (String job : jobsInOrder) {
+
+			ArrayList<Worker> workersForJob = getWorkersForJob(workersWorking,job,day);
+			Worker w = getWorkerForJob(job, workersForJob, day);
+			jobsWithWorker.put(job, w);
+			if (w.getName().equals("Empty")) {
+				break;
+			}
+			else {
+				workersWorking.add(w.getName());
+			}
+		}
+		return jobsWithWorker;
 	}
 	
 	private ArrayList<Worker> getWorkersForJob(ArrayList<String> workersWorking, String job, Day day) {
@@ -193,20 +187,24 @@ public class Schedule extends Thread implements Serializable {
 		return workersForJob;
 	}
 	
-	private Worker getWorkerForJob(String job, ArrayList<Worker> workersForJob) {
+	/*BONUS FEATURE - Each worker gets only one assignment before being repeated.
+	 * We use the field in worker so that every time he gets assigned to a job he keeps track of how many
+	 * jobs he has worked of that type. We choose the worker that has worked this job the least.
+	 * 
+	 * This was fairly easy to do since we have already refactored the code to extract methods
+	 */
+	private Worker getWorkerForJob(String job, ArrayList<Worker> workersForJob, Day day) {
 		if (workersForJob.size() > 0) {
-			Worker workerForJob = workersForJob
-					.get(new Random().nextInt(workersForJob
-							.size()));
+			Worker workerForJob = getLeastUsedWorker(workersForJob, job);
 			for (Worker w : workersForJob) {
 				if (w.numWorkedForJob(job) < workerForJob
 						.numWorkedForJob(job)) {
 					workerForJob = w;
 				}
 			}
-			return worker;
+			workerForJob.addWorkedJob(job);
+			return workerForJob;
 		} else {
-			jobsWithWorker.put(job, );
 			JOptionPane
 					.showMessageDialog(
 							new JFrame(),
@@ -214,9 +212,27 @@ public class Schedule extends Thread implements Serializable {
 									+ job + " on "
 									+ day.getNameOfDay());
 			this.workerForEveryJob = false;
-			return new Worker("Empty",
-					new ArrayList<Day>());
+			return new Worker("Empty",new ArrayList<Day>());
 		}
+	}
+	
+	/*
+	 * BONUS FEATURE - Function implementation
+	 */
+	private Worker getLeastUsedWorker(ArrayList<Worker> workers, String job) {
+		Worker leastUsed = workers.get(0);
+		ArrayList<Worker> dups = new ArrayList<Worker>();
+		for(Worker w: workers) {
+			if (w.numWorkedForJob(job) < leastUsed.numWorkedForJob(job)) {
+				leastUsed = w;
+				dups = new ArrayList<Worker>();
+				dups.add(w);
+			}
+			else if (w.numWorkedForJob(job) == leastUsed.numWorkedForJob(job)) {
+				dups.add(w);
+			}
+		}
+		return dups.get(new Random().nextInt(dups.size()));
 	}
 
 	private int numForName(String nameOfDay) {

@@ -20,8 +20,12 @@ import javax.swing.JOptionPane;
 public class Config extends javax.swing.JFrame {
 	
 	//SMELL - SWAP 1 TEAM 04 - Duplicate Code - Almost duplicate code is given for each day of the week
+	//Removing the duplicate code would let us change the behavior of the checkboxes more easily. We could make them add multiple days
+	//at once if we wanted to for some reason, etc.
 	//SMELL - SWAP 1 TEAM 04 - Shotgun Surgery - If a change in structure or function was to be made to the actions in this class you would need
 	//to change it in multiple places
+	//Features this allows are centralized changes to the functionality of the configuration window. Right now if you wanted to change
+	//the functionality of the text boxes you would need to change the code in almost every method.
 
     boolean firstSelection = true;
     int numSelected = 0;
@@ -105,6 +109,8 @@ public class Config extends javax.swing.JFrame {
     
     @SuppressWarnings("rawtypes")
     //SMELL - SWAP 1 TEAM 04 - Data Clumps - These elements are always used together.
+    //The features that could be added if we clumped this into an object would be localized additional buttons and panels.
+    //For instance, we could add a time duration for each job that we could show and put that in here.
 	private void initDyn() {
         this.sundayScrollPane = new javax.swing.JScrollPane();
         this.sundayScrollPane.setPreferredSize(new Dimension(185,150));

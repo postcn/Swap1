@@ -77,8 +77,9 @@ public class Schedule extends Thread implements Serializable {
 	 * 
 	 */
 	//SMELL - SWAP 1 TEAM 04: Long Method
+	//Features that could be added by extracting methods would be adding in the ability to make each worker work the job the same number
+	//of times, each person does it once before someone gets repeated.
 	//SWAP 1 Team 4 Change - Extract Method
-	//SWAP 1 
 	private synchronized void calculateNextMonth() {
 
 		int initialSize = this.schedule.size();

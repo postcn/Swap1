@@ -76,6 +76,7 @@ public class WorkerSetup extends javax.swing.JFrame {
 	}
 
 	//SMELL - SWAP 1 TEAM 04 - Long Method - there is a lot of code in this method, making it difficult to read and understand.
+	//Features that could be added are changing how the worker gets displayed in the tab pane, adding text stylization.
 	private void addWorker() {
 		this.days = Main.getDays();
 		javax.swing.JTabbedPane tempWorkerDays = new javax.swing.JTabbedPane();
